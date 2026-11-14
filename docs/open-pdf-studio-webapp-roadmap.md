@@ -87,6 +87,33 @@ Steps:
 3. README/contrib notes for the webapp deployment path.
 4. Version bump per `CLAUDE.md` (minor revision `X.Y.Z → X.(Y+1).0`) only when a push/release is authorized.
 
+## Branding & Rebranding — Plutonium Cloud design schema
+
+**Goal:** rebrand the entire app (web unit + iframe host page) to match the established Plutonium Cloud design schema.
+
+**Known branding touchpoints in the codebase:**
+- `open-pdf-studio/index.html:7` — `<title>Open PDF Studio</title>` and `favicon.ico` reference
+- `open-pdf-studio/index.html:9` — inline theme CSS (background `#f5f5f5` light, `#1a1a2e` dark)
+- `open-pdf-studio/styles.css` — imports `styles/base.css`, `styles/fonts.css`, `styles/themes.css`, `styles/titlebar.css`, `styles/ribbon.css`, `styles/dialogs.css`, etc. (26 style modules)
+- `open-pdf-studio/web-unit/voorbeeld/index.html:6` — example page title
+- `js/i18n/` — app name strings across 37 languages × 8 namespaces (~296 JSON files)
+- `open-pdf-studio/package.json:3` — `name: "open-pdf-studio"`, `version: "2026.46.3"`
+- `scripts/web-statistics.mjs` — analytics loader script reference
+
+**Required from Plutonium Cloud design schema (NOT yet provided — do not guess):**
+- Primary/secondary/accent colors (light + dark themes)
+- Logo mark + wordmark (SVG/PNG), favicon set
+- Typography (font families, weights, sizes)
+- Spacing, border-radius, elevation/shadow tokens
+- Component styling for ribbon, dialogs, title bar, status bar (per `CLAUDE.md`: Windows-style squared corners, no border-radius unless specified, gradient title bar `#ffffff`→`#f5f5f5`, border `#d4d4d4`, close button red `#e81123` on hover)
+
+**Rebranding scope:**
+- Web unit bundle (`dist-web-unit/`): update theme CSS, fonts, favicon, title, i18n app-name strings
+- Iframe host page (plutoniumcloud.com/desktop, outside this repo): match Plutonium Cloud shell header/chrome
+- Caddy-served bundle: serve rebranded assets
+
+**Decision needed:** obtain the Plutonium Cloud design schema (design tokens, assets) before touching any styling. Then a dedicated rebranding phase follows Phase 3 (iframe embed) so the host page and unit share one visual language.
+
 ## Open decisions (need answers before Phase 2–4)
 
 1. Docker registry & image naming for the static host.
