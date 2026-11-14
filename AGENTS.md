@@ -70,7 +70,13 @@ See `docs/open-pdf-studio-webapp-roadmap.md`.
 
 ## Handoff notes for next agent
 
-1. First action: `cd open-pdf-studio && npm ci && npm run build:web-unit`
-2. Then grep `dist-web-unit/` for `@tauri`, `__TAURI__`, `plugin:drag`, `desktop-drag-plugin` → must be absent
-3. Run `npm run typecheck` and web-unit tests (`web-unit/*.test.mjs`)
-4. Then create Dockerfile + Caddyfile for static hosting; minimal iframe host page; Nextcloud WebDAV wiring is host-side (outside this repo)
+1. Phase 1 build verification COMPLETE:
+   - `npm ci` succeeded in `open-pdf-studio/` (Node v24.22.1)
+   - `npm run build:web-unit` succeeded → `dist-web-unit/` built in 4.62s, entry `open-pdf-studio.js` 0.22 kB raw / 0.17 kB gzip
+   - `grep -rE "@tauri|__TAURI__|plugin:drag|desktop-drag-plugin|crabnebula" dist-web-unit/` → no matches (clean)
+   - `npm run typecheck` passed clean
+   - Web-unit unit tests: 70 pass / 0 fail (`web-unit/src/api.test.mjs`, `inbedden.test.mjs`, `meten.test.mjs`, `opslaan.test.mjs`, `web-unit/bundel-budget.test.mjs`)
+   - `test:web-unit` (demo-e2e.mjs) needs Playwright Chromium — not installed; browser binary download not attempted
+2. Next: Phase 2 — create Dockerfile + Caddyfile for static hosting of `dist-web-unit/`
+3. Then: Phase 3 — minimal iframe host page on plutoniumcloud.com/desktop driving the unit via `postMessage` (`web-unit/src/iframe-brug.js`)
+4. Nextcloud WebDAV wiring is host-side (outside this repo)

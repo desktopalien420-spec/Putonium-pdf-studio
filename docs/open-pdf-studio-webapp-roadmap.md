@@ -28,19 +28,22 @@
 
 ## Roadmap — phases
 
-### Phase 1 — Web-unit build verification (no app source changes)
+### Phase 1 — Web-unit build verification ✅ COMPLETE
 
 Verify the web-unit builds standalone without Rust/Tauri and ships no desktop imports.
 
-Steps:
-1. `cd open-pdf-studio && npm ci`
-2. `npm run build:web-unit` (Vite config `vite.web-unit.config.js`)
-3. Grep `dist-web-unit/` for `@tauri`, `__TAURI__`, `plugin:drag`, `desktop-drag-plugin` → must be absent
-4. `npm run typecheck` (partial TS) and web-unit tests (`web-unit/*.test.mjs`, `web-unit/demo-e2e.mjs`)
+Status: DONE — `npm ci` + `npm run build:web-unit` both succeeded (Node v24.22.1, 4.62s). Entry `open-pdf-studio.js` is 0.22 kB raw / 0.17 kB gzip. `grep -rE "@tauri|__TAURI__|plugin:drag|desktop-drag-plugin|crabnebula" dist-web-unit/` returned no matches (clean).
 
-Exit criteria: clean `dist-web-unit/` output, zero desktop symbols, unit tests green.
+Steps taken:
+1. `cd open-pdf-studio && npm ci` (succeeded, Node v24.22.1)
+2. `npm run build:web-unit` (succeeded, `dist-web-unit/` built)
+3. Grep `dist-web-unit/` for `@tauri`, `__TAURI__`, `plugin:drag`, `desktop-drag-plugin` → absent
 
-Blocker note: sandbox currently has no `node_modules` and no Rust/C toolchain. Phase 1 needs only Node + `npm ci`; unblock by installing Node deps when ready.
+Remaining in Phase 1:
+4. `npm run typecheck` (partial TS) — DONE, passed clean
+5. Web-unit tests (`web-unit/*.test.mjs`, `web-unit/demo-e2e.mjs`) — unit tests DONE: 70 pass / 0 fail (`api.test.mjs`, `inbedden.test.mjs`, `meten.test.mjs`, `opslaan.test.mjs`, `bundel-budget.test.mjs`); `demo-e2e.mjs` needs Playwright Chromium (not installed; browser binary download not attempted)
+
+Blocker note: sandbox currently has no Rust/C toolchain, but Phase 1 needs only Node + Vite (no Rust).
 
 ### Phase 2 — Caddy static host + Docker image
 
