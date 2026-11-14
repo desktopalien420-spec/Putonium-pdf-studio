@@ -1,0 +1,56 @@
+# Caddyfile — Open PDF Studio web-unit static host
+#
+# Serves dist-web-unit/ as static files for iframe embedding on
+# plutoniumcloud.com/desktop. The portal drives the unit via postMessage
+# (see open-pdf-studio/web-unit/src/iframe-brug.js).
+#
+# NOTE: Replace the placeholder origins (plutoniumcloud.com, nextcloud host)
+# with the actual values before deploying to production.
+
+{
+    admin off
+}
+
+# --- Main site: serve the web-unit bundle ---
+:80 {
+    root * /usr/share/caddy/dist-web-unit
+
+    # Serve index.html for direct navigation / custom-element host pages.
+    try_files {path} /index.html
+
+    file_server
+
+    # --- Security headers ---
+    # Content Security Policy for the iframe-embedded web unit.
+    # - script-src 'self' 'wasm-unsafe-eval'  — PDF.js / MuPDF WASM need wasm-unsafe-eval
+    # - worker-src 'self' blob:               — PDF.js web worker
+    # - style-src 'self' 'unsafe-inline'      — theme CSS (inline <style> extracted in hosted builds)
+    # - connect-src 'self' <nextcloud-origin> — fetch PDFs + save back via Nextcloud WebDAV
+    # - frame-ancestors <portal-origin>       — allow plutoniumcloud.com/desktop to iframe us
+    header Content-Security-Policy "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://nextcloud.example.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors https://plutoniumcloud.com;"
+
+    # Allow embedding in the Plutonium Cloud portal iframe.
+    header X-Frame-Options "ALLOW-FROM https://plutoniumcloud.com"
+
+    # CORS for cross-origin postMessage is not needed (postMessage is not CORS),
+    # but allow the portal origin to fetch bundle assets if served cross-origin.
+    header Access-Control-Allow-Origin "https://plutoniumcloud.com"
+    header Access-Control-Allow-Methods "GET, OPTIONS"
+    header Access-Control-Allow-Headers "Accept, Content-Type"
+
+    # Cache static assets aggressively; HTML always revalidated.
+    @assets {
+        path /brokken/* /middelen/*
+    }
+    header @assets Cache-Control "public, max-age=31536000, immutable"
+
+    @html {
+        path /*.html /open-pdf-studio.js
+    }
+    header @html Cache-Control "no-cache"
+}
+
+# --- Health check ---
+:8080 {
+    respond "ok" 200
+}

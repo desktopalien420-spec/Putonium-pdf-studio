@@ -45,14 +45,20 @@ Remaining in Phase 1:
 
 Blocker note: sandbox currently has no Rust/C toolchain, but Phase 1 needs only Node + Vite (no Rust).
 
-### Phase 2 — Caddy static host + Docker image
+### Phase 2 — Caddy static host + Docker image ✅ FILES AUTHORED (build/test pending — Docker unavailable in sandbox)
 
-Steps:
-1. Add a Dockerfile (under `open-pdf-studio/` or `packaging/`) that runs a minimal static file server (Caddy or nginx) serving `dist-web-unit/`.
-2. Caddy config: serve bundle at a sub-path, `try_files` fallback to `index.html`, CSP header permissive enough for the iframe `postMessage` unit (scripts self + `wasm-unsafe-eval`, connect-src to Nextcloud host).
-3. Build & push image; run locally to confirm bundle loads (`curl` returns 200, iframe loads the unit).
+Steps taken:
+1. Created `open-pdf-studio/Dockerfile` — multi-stage: Node 24 builder (`npm ci && npm run build:web-unit`) → Caddy 2 runner serving `dist-web-unit/`
+2. Created `open-pdf-studio/Caddyfile` — static passthrough at `:80`, `try_files` fallback to `index.html`, CSP for iframe `postMessage` embedding (script-src `'self' 'wasm-unsafe-eval'`, worker-src `'self' blob:`, connect-src to Nextcloud placeholder, frame-ancestors `https://plutoniumcloud.com`), cache headers for assets
+
+Remaining (needs Docker environment):
+3. `docker build -t plutonium/open-pdf-studio-web:2026.46.3 .`
+4. `docker run -p 8080:80 plutonium/open-pdf-studio-web:2026.46.3`
+5. `curl http://localhost:8080/` → 200; confirm iframe loads the unit
 
 Exit criteria: `docker build` succeeds, bundle served at 200, iframe loads the unit.
+
+Blocker note: Docker is not available in this sandbox; the image cannot be built or tested here. The next agent needs a Docker-enabled environment to complete Phase 2.
 
 ### Phase 3 — Iframe embed on plutoniumcloud.com/desktop
 

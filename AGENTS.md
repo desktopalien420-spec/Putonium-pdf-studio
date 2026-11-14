@@ -77,6 +77,9 @@ See `docs/open-pdf-studio-webapp-roadmap.md`.
    - `npm run typecheck` passed clean
    - Web-unit unit tests: 70 pass / 0 fail (`web-unit/src/api.test.mjs`, `inbedden.test.mjs`, `meten.test.mjs`, `opslaan.test.mjs`, `web-unit/bundel-budget.test.mjs`)
    - `test:web-unit` (demo-e2e.mjs) needs Playwright Chromium — not installed; browser binary download not attempted
-2. Next: Phase 2 — create Dockerfile + Caddyfile for static hosting of `dist-web-unit/`
-3. Then: Phase 3 — minimal iframe host page on plutoniumcloud.com/desktop driving the unit via `postMessage` (`web-unit/src/iframe-brug.js`)
+2. Phase 2 — Dockerfile + Caddyfile AUTHORED (not built/tested — Docker not available in this sandbox):
+   - `open-pdf-studio/Dockerfile` — multi-stage: Node 24 builder → `npm run build:web-unit`; Caddy 2 runner serving `dist-web-unit/`
+   - `open-pdf-studio/Caddyfile` — static passthrough at `:80`, `try_files` fallback to `index.html`, CSP for iframe postMessage embedding, `frame-ancestors https://plutoniumcloud.com`, `connect-src` to Nextcloud (placeholder origins — replace before deploy), cache headers for assets
+   - Next step for next agent: `docker build -t plutonium/open-pdf-studio-web:2026.46.3 .` and `docker run -p 8080:80 …` in an environment with Docker, then `curl http://localhost:8080/` → 200
+3. Phase 3 — minimal iframe host page on plutoniumcloud.com/desktop driving the unit via `postMessage` (`web-unit/src/iframe-brug.js`)
 4. Nextcloud WebDAV wiring is host-side (outside this repo)
