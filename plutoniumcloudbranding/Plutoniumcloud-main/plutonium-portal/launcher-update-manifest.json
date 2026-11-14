@@ -1,0 +1,11 @@
+{
+  "payload": "dee37729e1dc8ba9e69132d2ecf6a0546713b6e02b8f647cb3df704d59e521aa",
+  "before": {
+    "server.cjs": "f47bf4e4b5bdf99bd5599e65cf2d539931177d1de38e0361011153f8d3766341",
+    "public/app.js": "79c1fedf38a46e4cd48f9967ed473b5e0b5fd033da09ddf9fe3caf79eaf05cbc"
+  },
+  "after": {
+    "server.cjs": "5ebc6b2d7c9ffc0dca9b659786c9308f671936a85d2186bc3014d80d7a7a0a08",
+    "public/app.js": "f2cc1c8a284b29c2986e9613fe9cac1b1472a8d81d42d12730836c0188844fb2"
+  }
+}

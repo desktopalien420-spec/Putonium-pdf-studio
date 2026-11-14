@@ -1,0 +1,153 @@
+/* Plutonium Cloud / Authentik 2026.8.5 / flow-only theme v1.
+   Native forms, errors, MFA choices and recovery controls stay intact.
+   No external resources, imports, scripts, credential overlays or hidden controls. */
+ak-flow-executor,
+:host(ak-flow-executor),
+:host([part="challenge"]),
+:host(ak-flow-card) {
+  /* tokens:start */
+  --pc-background: #0a0a0a;
+  --pc-surface: rgba(14,14,14,.92);
+  --pc-foreground: #ffffff;
+  --pc-secondary: rgba(255,255,255,.85);
+  --pc-muted: rgba(255,255,255,.62);
+  --pc-faint: rgba(255,255,255,.35);
+  --pc-border: rgba(255,255,255,.12);
+  --pc-input-border: rgba(255,255,255,.24);
+  --pc-focus: rgba(255,255,255,.8);
+  --pc-button: #ffffff;
+  --pc-button-text: #0a0a0a;
+  --pc-hover: #e5e5e5;
+  --pc-radius: 24px;
+  --pc-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --pc-ease: cubic-bezier(.22,1,.36,1);
+  /* tokens:end */
+  --ak-flow-background: none;
+  --ak-c-login--MaxWidth: 27rem;
+  --ak-c-login--spacer: 2rem;
+  --ak-c-login__main--BackgroundColor: var(--pc-surface);
+  --ak-c-login__main--Color: var(--pc-foreground);
+  --ak-c-login__main--BoxShadow: 0 32px 90px #0009;
+  --ak-c-login__main-header-PaddingBlock: 1rem;
+  --ak-c-login__main-header-PaddingInline: 2rem;
+  --ak-c-login__main--brand-PaddingIdeal: 2.5rem;
+  --ak-c-login__main--footer-PaddingIdeal: 2rem;
+  --ak-font-family-sans-serif: var(--pc-font);
+  --ak-font-family-heading: var(--pc-font);
+  --pf-global--FontFamily--text: var(--pc-font);
+  --pf-global--FontFamily--heading: var(--pc-font);
+  --pf-global--Color--100: var(--pc-foreground);
+  --pf-global--Color--200: var(--pc-muted);
+  --pf-global--BackgroundColor--100: #101010;
+  --pf-global--BackgroundColor--200: #181818;
+  --pf-global--BackgroundColor--300: #202020;
+  --pf-global--primary-color--100: #fff;
+  --pf-global--primary-color--200: #e5e5e5;
+  --pf-global--link--Color: #ddd;
+  --pf-global--link--Color--hover: #fff;
+  font-family: var(--pc-font);
+  color: var(--pc-foreground);
+  color-scheme: dark;
+}
+ak-flow-executor,
+:host(ak-flow-executor) {
+  background: radial-gradient(ellipse at 50% 30%, #ffffff06, transparent 65%), #0a0a0a;
+}
+.pf-c-login {
+  --pf-c-login__main--BackgroundColor: rgba(14,14,14,.92);
+  --pf-c-login__main-body--PaddingLeft: 2rem;
+  --pf-c-login__main-body--PaddingRight: 2rem;
+  --pf-c-login__main-footer-band--BackgroundColor: transparent;
+  --ak-c-login__main--BackgroundColor: rgba(14,14,14,.92);
+  --ak-c-login__main--Color: #fff;
+}
+:host(ak-flow-executor) .pf-c-login__main {
+  border: 1px solid #ffffff1f;
+  border-radius: 24px;
+  background: rgba(14,14,14,.92);
+  color: #fff;
+  box-shadow: 0 32px 90px #0009;
+}
+:host(ak-flow-executor) [part="branding"] {
+  padding-block: 2.4rem 1.3rem;
+}
+:host(ak-flow-executor) .branding-logo {
+  width: min(100%, 250px);
+  height: auto;
+  max-height: 52px;
+  object-fit: contain;
+}
+:is(:host([part="challenge"]), :host(ak-flow-card)) .pf-c-title {
+  color: #fff;
+  font-family: var(--pc-font);
+  font-size: 1.55rem;
+  font-weight: 300;
+  letter-spacing: -.035em;
+  line-height: 1.35;
+}
+:is(:host([part="challenge"]), :host(ak-flow-card)) .pf-c-form__label,
+:is(:host([part="challenge"]), :host(ak-flow-card)) label {
+  color: #ffffffb3;
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .11em;
+}
+:is(:host([part="challenge"]), :host(ak-flow-card)) .pf-c-form-control {
+  --pf-c-form-control--BackgroundColor: transparent;
+  --pf-c-form-control--Color: #fff;
+  --pf-c-form-control--BorderTopColor: transparent;
+  --pf-c-form-control--BorderRightColor: transparent;
+  --pf-c-form-control--BorderLeftColor: transparent;
+  --pf-c-form-control--BorderBottomColor: #ffffff3d;
+  --pf-c-form-control--focus--BorderBottomColor: #ffffffcc;
+  background: transparent;
+  color: #fff;
+  border-radius: 0;
+  font-family: var(--pc-font);
+  font-size: 1rem;
+  min-height: 44px;
+}
+:is(:host([part="challenge"]), :host(ak-flow-card)) .pf-c-form-control::placeholder {color:#ffffff73;}
+:is(:host([part="challenge"]), :host(ak-flow-card)) .pf-c-button.pf-m-primary {
+  --pf-c-button--m-primary--BackgroundColor: #fff;
+  --pf-c-button--m-primary--Color: #0a0a0a;
+  --pf-c-button--m-primary--hover--BackgroundColor: #e5e5e5;
+  --pf-c-button--m-primary--hover--Color: #0a0a0a;
+  --pf-c-button--m-primary--focus--BackgroundColor: #e5e5e5;
+  --pf-c-button--m-primary--focus--Color: #0a0a0a;
+  --pf-c-button--BorderRadius: 100px;
+  border-radius: 100px;
+  min-height: 44px;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+:is(:host([part="challenge"]), :host(ak-flow-card)) a {color:#ddd;text-underline-offset:4px;}
+:is(:host([part="challenge"]), :host(ak-flow-card)) a:hover {color:#fff;}
+:is(:host([part="challenge"]), :host(ak-flow-card)) :focus-visible {outline:2px solid #ffffffcc;outline-offset:4px;}
+:is(:host([part="challenge"]), :host(ak-flow-card)) .pf-c-alert {
+  --pf-c-alert--BackgroundColor: #191919;
+  --pf-c-alert--Color: #fff;
+  border-radius: 10px;
+}
+@media(max-width:560px) {
+  ak-flow-executor,:host(ak-flow-executor),:is(:host([part="challenge"]), :host(ak-flow-card)) {
+    --ak-c-login--spacer: 1.5rem;
+    --ak-c-login__main-header-PaddingInline: 1.5rem;
+    --ak-c-login__main--brand-PaddingIdeal: 1.8rem;
+  }
+  :host(ak-flow-executor) .pf-c-login__main {border-radius:20px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  :is(:host([part="challenge"]), :host(ak-flow-card)) * {transition-duration:0s!important;animation-duration:0s!important;}
+}
+@media(forced-colors:active) {
+  :host(ak-flow-executor) .pf-c-login__main {border:1px solid CanvasText;}
+  :is(:host([part="challenge"]), :host(ak-flow-card)) :focus-visible {outline-color:Highlight;}
+}
+
+:is(:host([part="challenge"]), :host(ak-flow-card)) input,
+:is(:host([part="challenge"]), :host(ak-flow-card)) button,
+:is(:host([part="challenge"]), :host(ak-flow-card)) select {font-family:var(--pc-font);}
+:is(:host([part="challenge"]), :host(ak-flow-card)) input::placeholder {font-style:normal;}

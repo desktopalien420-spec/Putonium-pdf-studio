@@ -1,0 +1,30 @@
+/* Plutonium / Files header v1 — Nextcloud 34.0.5.
+   Loaded through the native template event ONLY on ordinary Adrian's Files pages.
+   Assets stay on the same origin; native home-link semantics/focus remain.
+   Mask uses native header text color so personal header contrast is retained. */
+#header #nextcloud {
+  padding-inline-start: 200px !important;
+}
+#header #nextcloud .logo {
+  width: 176px !important;
+  height: 44px !important;
+  background-image: none !important;
+  background-color: var(--color-header-primary, currentColor) !important;
+  -webkit-mask-image: url("../img/wordmark.svg");
+  mask-image: url("../img/wordmark.svg");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  filter: none !important;
+}
+@media (max-width: 700px) {
+  #header #nextcloud { padding-inline-start: 72px !important; }
+  #header #nextcloud .logo {
+    width: 48px !important;
+    -webkit-mask-image: url("../img/orbit.svg");
+    mask-image: url("../img/orbit.svg");
+  }
+}

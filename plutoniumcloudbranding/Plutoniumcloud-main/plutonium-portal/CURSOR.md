@@ -1,0 +1,13 @@
+# Aero cursor candidate — not deployed
+
+This non-served document describes the cursor candidate and its source records. Original pack metadata remains in cursor-assets.json outside the served public tree. Per Adrian's requested UI revision, served/public files contain no author/license/credit block and no new served credit file is added. No license review is part of this task.
+
+Exactly app.js, styles.css and desktop.html change at runtime. Original 32x32 .cur bytes are embedded in the existing stylesheet with original hotspots, native fallbacks and no extra asset route. Animated busy/working .ani and unused alternate/pen/up cursors are excluded; busy remains native progress/wait. No DOM cursor, frame loop, library or inline style/script is added.
+
+Custom cursor defaults on for eligible mouse use. The account control is a real checkbox input with role=switch and an iOS-like track, native Space, explicit non-repeating Enter activation, and a visible focus ring. It stores the same boolean in browser-local plutonium.cursor.aero.v1. Switch transitions/animations are disabled under reduced motion. Off persists across reloads; malformed/unavailable storage safely disables until explicitly selected. No account data/positions are stored. Keyboard, touch/pen, coarse/no-hover input, reduced motion and forced colors use native cursors; iframe interiors and landing page unaffected. Media preferences apply dynamically. New switch validation/test-diff review is pending; the prior manual cursor behavior is accepted OPERATOR-REPORTED, including all three iframe/return checks.
+
+The controller owns delegated listeners and removes active input listeners when disabled or hidden. pagehide releases active listeners; exactly two lifetime pagehide/pageshow hooks remain to support back-forward cache recovery, and destroy removes those too. No per-window listener or animation frame is created. Existing window-manager listeners are outside this feature's scope and are not refactored.
+
+The original Chat manifest and derivation stay unchanged. cursor-derivation.json preserves the three prior Git blobs and exact bytes, pins candidate hashes and assets; chat-window.test.cjs retains every original test and historical assertion while separately validating this approved derivation. Current security/invitation/Cinema assertions remain unchanged. R03 baseline and historical evidence remain immutable.
+
+Deployment is ON HOLD. Repository Cinema remains denied and synthetic-only. The operator-reported live Cinema tile/service is untouched. Before any eventual deployment, reconcile these client changes with live Cinema behavior under a separately reviewed plan. No draft PR, test pass or source merge is deployment approval.

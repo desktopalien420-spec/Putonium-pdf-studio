@@ -1,0 +1,18 @@
+/* Plutonium Cloud visual contract v1. Presentation only. */
+:root {
+  --pc-background: #0a0a0a;
+  --pc-surface: rgba(14,14,14,.92);
+  --pc-foreground: #ffffff;
+  --pc-secondary: rgba(255,255,255,.85);
+  --pc-muted: rgba(255,255,255,.62);
+  --pc-faint: rgba(255,255,255,.35);
+  --pc-border: rgba(255,255,255,.12);
+  --pc-input-border: rgba(255,255,255,.24);
+  --pc-focus: rgba(255,255,255,.8);
+  --pc-button: #ffffff;
+  --pc-button-text: #0a0a0a;
+  --pc-hover: #e5e5e5;
+  --pc-radius: 24px;
+  --pc-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --pc-ease: cubic-bezier(.22,1,.36,1);
+}

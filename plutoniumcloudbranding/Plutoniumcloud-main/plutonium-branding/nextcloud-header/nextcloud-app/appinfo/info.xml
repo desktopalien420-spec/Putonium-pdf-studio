@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+  <id>plutonium_files_brand</id><name>Plutonium Files Header</name>
+  <summary>Private Files header styling for the Plutonium desktop pilot.</summary>
+  <description>Native header wordmark and compact orbit icon for Adrian's Files pages. No controllers, JavaScript, authentication policy or data processing.</description>
+  <version>0.1.0</version><licence>agpl</licence><author>Plutonium Cloud</author><namespace>PlutoniumFilesBrand</namespace>
+  <category>customization</category><dependencies><nextcloud min-version="34" max-version="34"/></dependencies>
+</info>

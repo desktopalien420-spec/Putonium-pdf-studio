@@ -1,0 +1,12 @@
+{
+  "payload": "7f87487d06f841cc92e48b0db7da42d03f3165f6c7879b5dde81f4c7d25eb9d7",
+  "files": {
+    "nextcloud-app/appinfo/info.xml": "e8d5b66258b77cdfd1c60c82f88c0b2fc940a68c85f04729cf0673c70484100a",
+    "nextcloud-app/css/header.css": "1783d9c92153bed88460c4902e4c8459f0a44f09f52e53d88a1fcd7ea3ee076d",
+    "nextcloud-app/img/orbit.svg": "753cda5666bea7c36b65af2b07c753acf2e90830e22afb9e0e58faa4596c3aef",
+    "nextcloud-app/img/wordmark.svg": "0cf32e80cd2419302d9b54feb668ce948389445824872613b3bd0b287461b9df",
+    "nextcloud-app/lib/AppInfo/Application.php": "eeaf0a06fdfaa59bc62b52c193850947e5b4d3ff843d0c46e3471aa213a7edc0",
+    "nextcloud-app/lib/Listener/HeaderStyleListener.php": "2887a52d9346ae4a8d185121958d22a6a5b5f6e4b97f88596643c3ca30e3aab3",
+    "listener-fixture.php": "9ac1a604b7fc55ac6771c24691fd600c93d25ec122456a49303fb6c818d0b6d1"
+  }
+}

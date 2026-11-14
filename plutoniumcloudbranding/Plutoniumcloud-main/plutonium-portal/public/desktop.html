@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
+  <title>Plutonium Cloud · Your desktop</title><link rel="icon" href="mark.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><script src="app.js" defer></script>
+</head>
+<body class="desktop-page">
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="desktop-topbar">
+    <a class="wordmark" href="/">plutonium<span>/</span>cloud</a>
+    <nav class="workspace-nav" aria-label="Workspace"><button class="nav-current" type="button" data-home>Desktop</button><button type="button" data-open="files">My files</button></nav>
+    <div class="topbar-right"><span class="preview-label">Private workspace</span><time id="clock"></time><button class="avatar" id="account-button" type="button" aria-label="Your account" aria-haspopup="dialog">A</button></div>
+  </header>
+  <main class="desktop-main">
+    <section class="greeting" aria-labelledby="greeting-title"><div><p class="eyebrow">Your private workspace</p><h1 id="greeting-title">Welcome home, <span id="greeting-name">your space</span>.</h1><p class="greeting-copy">Your files, memories, and ideas. All in one place.</p></div><div class="identity-meta"><span class="tiny-orbit" aria-hidden="true"></span><span>One identity.<br>A space of your own.</span></div></section>
+    <div class="workspace-layout">
+      <section class="apps-section" aria-labelledby="apps-heading">
+        <div class="section-heading"><h2 id="apps-heading">Your applications <span id="app-count">06</span></h2><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg><input id="app-search" type="search" placeholder="Find an app" aria-label="Find an application"><kbd>⌘ K</kbd></label></div>
+        <div class="app-filters" role="group" aria-label="Filter applications"><button class="selected" type="button" data-filter="all" aria-pressed="true">All apps</button><button type="button" data-filter="personal" aria-pressed="false">Files & memories</button><button type="button" data-filter="compute" aria-pressed="false">Create & compute</button></div>
+        <div class="app-grid" id="app-grid"></div><p class="empty-state" id="empty-search" hidden>No applications match your search.</p>
+        <section class="recent-section" aria-labelledby="recent-heading"><div class="section-heading"><h2 id="recent-heading">Connected services</h2><span class="subtle-label">Your account</span></div><div id="recent-files" class="recent-files"></div></section>
+      </section>
+      <aside class="personal-panel" aria-labelledby="personal-heading">
+        <div class="panel-orbit appearance-atom" aria-hidden="true"><canvas id="appearance-atom" width="220" height="180" hidden></canvas><svg viewBox="0 0 180 150"><ellipse cx="90" cy="75" rx="68" ry="27"/><ellipse cx="90" cy="75" rx="68" ry="27" transform="rotate(60 90 75)"/><ellipse cx="90" cy="75" rx="68" ry="27" transform="rotate(120 90 75)"/><circle cx="90" cy="75" r="5"/></svg></div>
+        <p class="eyebrow">This space belongs to</p><h2 id="personal-heading">your space</h2><p class="personal-description">A separate home for your documents, photos, and conversations.</p>
+        <div class="personal-row"><span>Membership</span><strong>By invitation</strong></div><div class="personal-row"><span>Workspace</span><strong>Personal</strong></div>
+        <div class="personal-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg><p>Share deliberately.<br>Keep the rest your own.</p></div>
+        <button class="text-button" type="button" id="appearance-open" aria-haspopup="dialog" aria-controls="appearance-dialog">Desktop appearance <span aria-hidden="true">↗</span></button>
+        <button class="text-button" type="button" id="switch-preview">Account settings <span aria-hidden="true">↗</span></button>
+      </aside>
+    </div>
+    <footer class="desktop-footer"><span>Members only · Private domain</span><span>Your account · Your workspace</span></footer>
+  </main>
+  <nav class="dock" aria-label="Quick launch"><button type="button" data-home aria-label="Desktop" id="dock-home"></button><span class="dock-divider" aria-hidden="true"></span><button type="button" data-open="files" aria-label="Files" id="dock-files"></button><button type="button" data-open="photos" aria-label="Photos" id="dock-photos"></button><button type="button" data-open="plex" aria-label="Cinema" id="dock-plex"></button><button type="button" data-open="chat" aria-label="Chat" id="dock-chat"></button><button type="button" data-open="vms" aria-label="Virtual machines" id="dock-vms"></button></nav>
+  <dialog class="app-window" id="app-window" aria-labelledby="window-title"><header class="window-bar"><div class="window-controls"><button type="button" id="close-window" aria-label="Close window"><span></span></button></div><span id="window-title"></span><button class="window-expand" type="button" id="expand-window" aria-label="Toggle larger window">↗</button></header><div class="window-body" id="window-body"></div></dialog>
+  <dialog class="account-dialog" id="account-dialog" aria-labelledby="account-title"><header><h2 id="account-title">Your account.</h2><button type="button" id="close-account" aria-label="Close account panel">×</button></header><p id="account-description"></p><div class="account-facts"><span>Identity</span><strong id="account-username"></strong></div><a class="account-exit" href="https://auth.plutoniumcloud.com/" target="_blank" rel="noopener noreferrer">Account &amp; security <span aria-hidden="true">↗</span></a><a class="account-exit" href="/outpost.goauthentik.io/sign_out">Sign out <span aria-hidden="true">↗</span></a></dialog>
+  <dialog class="appearance-dialog" id="appearance-dialog" aria-labelledby="appearance-title" aria-describedby="appearance-help">
+    <form id="appearance-form">
+      <header><div><p class="eyebrow">Make yourself at home</p><h2 id="appearance-title">Desktop appearance</h2></div><button type="button" id="appearance-close" aria-label="Close desktop appearance">×</button></header>
+      <p id="appearance-help">Only this browser. Appearance choices stay on this device.</p>
+      <fieldset><legend>Atom</legend>
+        <label class="appearance-row"><span>Show atom</span><input type="checkbox" name="atom"></label>
+        <label class="appearance-row"><span>Animate atom</span><input type="checkbox" name="animation" aria-describedby="appearance-motion-help"></label>
+        <label class="appearance-row"><span>Speed <output id="appearance-speed" for="appearance-speed-input"></output></span><input id="appearance-speed-input" type="range" name="speed" min="0" max="1000" step="1" aria-describedby="appearance-speed-help"></label>
+        <label class="appearance-row"><span>Dither <output id="appearance-dither" for="appearance-dither-input"></output></span><input id="appearance-dither-input" type="range" name="dither" min="0" max="1" step="0.05"></label>
+        <p id="appearance-speed-help">0–20×. Fine control at lower speeds.</p>
+      </fieldset>
+      <fieldset><legend>Cursor</legend>
+        <section class="cursor-preference" aria-labelledby="aero-cursor-label"><label id="aero-cursor-label" class="cursor-switch-label"><span>Custom cursor</span><span class="cursor-switch"><input type="checkbox" role="switch" id="aero-cursor-enabled" aria-describedby="aero-cursor-help aero-cursor-status"><span class="cursor-switch-track" aria-hidden="true"></span></span></label><p id="aero-cursor-help">For a desktop mouse. Automatically off for reduced motion and high contrast. App contents keep their own cursors.</p><p id="aero-cursor-status" role="status" aria-live="polite">Your system cursor is in use until mouse input is detected.</p></section>
+      </fieldset>
+      <fieldset><legend>Appearance</legend>
+        <label class="appearance-row"><span>Show greeting</span><input type="checkbox" name="greeting"></label>
+        <p id="appearance-motion-help">Animation pauses automatically when your system prefers reduced motion.</p>
+        <label class="appearance-row"><span>Tone</span><select name="tone"><option value="neutral">Neutral</option><option value="soft">Soft</option><option value="bright">Bright</option><option value="strong">Strong</option></select></label>
+      </fieldset>
+      <p id="appearance-status" role="status" aria-live="polite"></p>
+      <footer><button type="button" id="appearance-reset">Reset appearance</button><button type="button" id="appearance-done">Done</button><button type="submit" class="appearance-save">Save</button></footer>
+    </form>
+  </dialog>
+</body>
+</html>
