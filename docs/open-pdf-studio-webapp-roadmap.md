@@ -1,5 +1,22 @@
 # Roadmap & Implementation Plan — Open PDF Studio Webapp for Plutonium Cloud
 
+This is a sub-roadmap within the broader Plutonium Cloud project (see Plutonium Cloud roadmap to 1.0, updated November 14, 2026). The webapp work sits inside **Phase 7 — Feature sessions (in progress)** of the project roadmap, after Phases 1–6 are complete and before Phases 8–10 (secure external access, polish/hardening, v1.0 launch).
+
+## Plutonium Cloud project context (from project roadmap)
+
+| Phase | Name | Status |
+|---|---|---|
+| 1 | Foundation | Done |
+| 2 | Rapid feature building | Done |
+| 3 | Reconciliation (R01 to R09) | Done |
+| 4 | Git cleanup | Done |
+| 5 | Users and provisioning | Partly done |
+| 6 | First deployment | Done (client-only) |
+| 7 | Feature sessions | **In progress** ← webapp work here |
+| 8 | Secure external access | Planned |
+| 9 | Polish and hardening | Planned |
+| 10 | Version 1.0 launch | Goal |
+
 ## Decisions locked in
 
 | # | Decision |
@@ -22,11 +39,11 @@
 | Item | Location | Owner |
 |---|---|---|
 | Web-unit bundle | `open-pdf-studio/dist-web-unit/` (build output) | coding agent |
-| Dockerfile + Caddyfile | new, under `packaging/` or `open-pdf-studio/` | coding agent |
+| Dockerfile + Caddyfile | `open-pdf-studio/Dockerfile`, `open-pdf-studio/Caddyfile` | coding agent |
 | Host iframe page | plutoniumcloud.com/desktop repo (outside this repo) | portal team |
 | Nextcloud WebDAV client | host page / backend | backend team |
 
-## Roadmap — phases
+## Roadmap — phases (Open PDF Studio webapp sub-roadmap)
 
 ### Phase 1 — Web-unit build verification ✅ COMPLETE
 
