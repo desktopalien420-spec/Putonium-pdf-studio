@@ -1,0 +1,14 @@
+{
+  "name": "plutonium-cloud-portal",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "check": "node --check server.cjs && node --check public/app.js && node --check public/desktop-window.mjs && node --check public/window-model.mjs",
+    "test": "node --test security.test.cjs chat-window.test.cjs window-model.test.mjs invitation-service.test.cjs",
+    "test:browser": "node browser-qa.cjs"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "description": "Source-only reconciled desktop candidate; deployment blocked on native Cinema and release readiness"
+}

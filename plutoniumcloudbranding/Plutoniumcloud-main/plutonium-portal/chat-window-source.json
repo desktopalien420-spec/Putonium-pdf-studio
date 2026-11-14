@@ -1,0 +1,70 @@
+{
+  "kind": "reconciled-chat-window-source-v1",
+  "deployable": false,
+  "base": "3ecfa4c8b8e369264bc680d25cabf1948c542913",
+  "r03_source": "334af34e96a7426f004f6169041180ecc9f7edc0",
+  "r04_containment_reference": "5fab0a5dce83dec951817f002ba3f32c3e20a940",
+  "historical_chat_reference": "88fbae47c28d75dd06297a9c87a3478ab0866c1a",
+  "files": {
+    "server.cjs": {
+      "observed_before_sha256": "7b288122e720dadc24642588d3a93644dc60f6002c1a2cdd0058af005c0d7ae2",
+      "r03_canonical_lf_sha256": "7b288122e720dadc24642588d3a93644dc60f6002c1a2cdd0058af005c0d7ae2",
+      "candidate_lf_sha256": "b748d5ac8396ddbf6db9cdee5e4e2ade7b734f50e661fdde98153c7164a70296",
+      "derivation": "R03 observed source; disconnect owner-token import/capability/status/launch and explicitly deny invitation GET/HEAD; remove redundant final blank line"
+    },
+    "public/app.js": {
+      "observed_before_sha256": "c0ed02e68ccfacd1c7fc680a90a7e2277358943032a166eeb7d7025f62b736ad",
+      "r03_canonical_lf_sha256": "c0ed02e68ccfacd1c7fc680a90a7e2277358943032a166eeb7d7025f62b736ad",
+      "candidate_lf_sha256": "0be310dc9effc631922f883af55fe8326d64af3b7d956aacda4666dfa7232e78",
+      "derivation": "R03 public asset, LF content retained; redundant final blank line removed if present"
+    },
+    "public/desktop-window.mjs": {
+      "observed_before_sha256": "3b64d4313914f4b46ce09d70fecfdfdf532555250a3afb397e40f54b49527f1f",
+      "r03_canonical_lf_sha256": "5390f21735f6f33a80120b28fb7e5c69da7f79e37c776cd9a1ec2bc442dd6e91",
+      "candidate_lf_sha256": "5390f21735f6f33a80120b28fb7e5c69da7f79e37c776cd9a1ec2bc442dd6e91",
+      "derivation": "R03 public asset, LF content retained; redundant final blank line removed if present"
+    },
+    "public/desktop.html": {
+      "observed_before_sha256": "6ceab3f8151ca264238fb2e8d018faaa3afa295b6af18f7fff050d0c4b48655c",
+      "r03_canonical_lf_sha256": "490dc2b801da45886aae8caea32b9113f0d84b978de099fd215ef03f042437fb",
+      "candidate_lf_sha256": "490dc2b801da45886aae8caea32b9113f0d84b978de099fd215ef03f042437fb",
+      "derivation": "R03 public asset, LF content retained; redundant final blank line removed if present"
+    },
+    "public/index.html": {
+      "observed_before_sha256": "79288fd7e188ebb483e8cbbb3a4985564944c6c556f7712f84b3e8c777a853c3",
+      "r03_canonical_lf_sha256": "f3a8a0a3e5b02007810cae4ea1e2aeb160d7af606a4590a397135e01d3bf0919",
+      "candidate_lf_sha256": "f3a8a0a3e5b02007810cae4ea1e2aeb160d7af606a4590a397135e01d3bf0919",
+      "derivation": "R03 public asset, LF content retained; redundant final blank line removed if present"
+    },
+    "public/mark.svg": {
+      "observed_before_sha256": "952d266caa5ec88e241bf51f1fae6eeee7ebad814dc1b4601e649159d486de80",
+      "r03_canonical_lf_sha256": "20d61aa8d41f60bd236b5c318a993649d1d4bee79132d17309fa185eee40cee2",
+      "candidate_lf_sha256": "20d61aa8d41f60bd236b5c318a993649d1d4bee79132d17309fa185eee40cee2",
+      "derivation": "R03 public asset, LF content retained; redundant final blank line removed if present"
+    },
+    "public/styles.css": {
+      "observed_before_sha256": "160e74c7bbb800489b4f97774d6e04afffac2807e6e62edb9a3644c7ff6fabe4",
+      "r03_canonical_lf_sha256": "89bcd0f2362a5d7e39dab6ab650bc2e35d2c0dd1e8d18f6d0a4c9c3f8794a023",
+      "candidate_lf_sha256": "89bcd0f2362a5d7e39dab6ab650bc2e35d2c0dd1e8d18f6d0a4c9c3f8794a023",
+      "derivation": "R03 public asset, LF content retained; redundant final blank line removed if present"
+    },
+    "public/window-model.mjs": {
+      "observed_before_sha256": "e0f3d41f785974bc0aeb18d59bf9ca4143587cade3212895461690d8b13d3438",
+      "r03_canonical_lf_sha256": "da6a3e90dbdd367a33cb30105d90728c53ac25e2fda3e08cabd370080c73ed56",
+      "candidate_lf_sha256": "da6a3e90dbdd367a33cb30105d90728c53ac25e2fda3e08cabd370080c73ed56",
+      "derivation": "R03 public asset, LF content retained; redundant final blank line removed if present"
+    }
+  },
+  "excluded": [
+    "plex.cjs owner-token implementation",
+    "invitation-service.cjs activation",
+    "historical installers/manifests",
+    "linked-account and invitation state"
+  ],
+  "gates": [
+    "R08 native per-user Cinema authorization before current-window release readiness",
+    "R07 enabled onboarding remains owned/unregistered",
+    "fresh portal Compose/source/backup and scoped rollback plan",
+    "native user browser and explicit deployment approval"
+  ]
+}

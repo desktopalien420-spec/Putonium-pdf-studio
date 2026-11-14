@@ -1,0 +1,128 @@
+{
+  "kind": "portal-aero-cursor-assets-v1",
+  "author": "benjy2429",
+  "source": "http://www.rw-designer.com/cursor-set/aero-no-tail",
+  "license_as_supplied": "Creative Commons - Attribution; no version specified in supplied readme",
+  "readme_sha256": "da08396e3b2e8fb48ebe01ea5a81c36c89cae9eda564c7c854faf731cb33bbbb",
+  "selected_assets": {
+    "arrow": {
+      "file": "arrow.cur",
+      "sha256": "4201a8dea774ea60e2beed7d8e0393046ec3a0d60294e37f6133f59264df3701",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        0,
+        0
+      ]
+    },
+    "link": {
+      "file": "link.cur",
+      "sha256": "919ea23601f8b5d5a95b7411ace60c2ed138a6d7170dd5c4aa106c3da2b81d6d",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        5,
+        0
+      ]
+    },
+    "select": {
+      "file": "select.cur",
+      "sha256": "cb934ccc9499d6bf35395981e4fb1f5275d46dd4ce7d1ca00be80325526902a3",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        15,
+        16
+      ]
+    },
+    "move": {
+      "file": "move.cur",
+      "sha256": "2463bd2f58a57f109f38e76f60f2d1f6a22bff5f3fba6bf2ae2b9f8637f38c44",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        15,
+        15
+      ]
+    },
+    "unavail": {
+      "file": "unavail.cur",
+      "sha256": "15eec707f3c1c2d02ec58ed35db53b9597a64f3c1983e494dc7a126b16175c35",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        7,
+        7
+      ]
+    },
+    "ns": {
+      "file": "ns.cur",
+      "sha256": "72619e56de2ce5e4d903b5976f83dc73f5d781035b1ba29ae12272f922b7081f",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        15,
+        15
+      ]
+    },
+    "ew": {
+      "file": "ew.cur",
+      "sha256": "ee2aa865865aee67d734f85b083368abcb358a7b01ec2e6afdf760a00274e2b8",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        15,
+        15
+      ]
+    },
+    "nesw": {
+      "file": "nesw.cur",
+      "sha256": "0d61de3a63226f3d77020c84342abaa920b9b54efe5ef0f079e2e8ec794c80f6",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        15,
+        15
+      ]
+    },
+    "nwse": {
+      "file": "nwse.cur",
+      "sha256": "56cb5bcfcddaf383c44fe9bbe33cfc4c8be253dd04debbec0d6947d4ed99bff3",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        15,
+        15
+      ]
+    },
+    "helpsel": {
+      "file": "helpsel.cur",
+      "sha256": "c45cfbd17c8c14e5f270fce1a29fcb220f8dca16e6e2b28514864a529a5240db",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        0,
+        0
+      ]
+    },
+    "prec": {
+      "file": "prec.cur",
+      "sha256": "d9726ac8049b18c127c7c60c22065f4e23787903b4eb864e8cf6d165c3eccf42",
+      "width": 32,
+      "height": 32,
+      "hotspot": [
+        14,
+        15
+      ]
+    }
+  },
+  "animated_assets_used": false,
+  "unused_files": [
+    "alt.cur",
+    "up.cur",
+    "pen.cur",
+    "busy.ani",
+    "working.ani"
+  ],
+  "runtime_encoding": "Original .cur bytes embedded unchanged in styles.css; no served asset route or animated overlay"
+}
