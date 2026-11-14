@@ -80,6 +80,8 @@ See `docs/open-pdf-studio-webapp-roadmap.md`.
 2. Phase 2 — Dockerfile + Caddyfile AUTHORED (not built/tested — Docker not available in this sandbox):
    - `open-pdf-studio/Dockerfile` — multi-stage: Node 24 builder → `npm run build:web-unit`; Caddy 2 runner serving `dist-web-unit/`
    - `open-pdf-studio/Caddyfile` — static passthrough at `:80`, `try_files` fallback to `index.html`, CSP for iframe postMessage embedding, `frame-ancestors https://plutoniumcloud.com`, `connect-src` to Nextcloud (placeholder origins — replace before deploy), cache headers for assets
-   - Next step for next agent: `docker build -t plutonium/open-pdf-studio-web:2026.46.3 .` and `docker run -p 8080:80 …` in an environment with Docker, then `curl http://localhost:8080/` → 200
-3. Phase 3 — minimal iframe host page on plutoniumcloud.com/desktop driving the unit via `postMessage` (`web-unit/src/iframe-brug.js`)
-4. Nextcloud WebDAV wiring is host-side (outside this repo)
+   - Next step: `docker build -t plutonium/open-pdf-studio-web:2026.46.3 .` and `docker run -p 8080:80 …`, then `curl http://localhost:8080/` → 200
+3. Phase 3 — iframe host page AUTHORED:
+   - `open-pdf-studio/web-unit/voorbeeld/host.html` — reference host page implementing the postMessage protocol (`laad`, `opslaan`, `zetSchaal`, `gaNaarPagina`, `zetModus`, `zetAnnotaties`), origin-gated to `https://plutoniumcloud.com`, Nextcloud WebDAV fetch/save placeholders, desktop-only features greyed out
+   - Note: the live host page belongs in the plutoniumcloud.com/desktop repo (outside this repo); this is a reference implementation to adapt
+4. Phase 4 — Nextcloud WebDAV wiring is host-side (outside this repo): replace the `fetchPdfFromNextcloud`/`savePdfToNextcloud` placeholders in host.html with real OIDC-authenticated WebDAV GET/PUT

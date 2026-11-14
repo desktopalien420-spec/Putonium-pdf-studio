@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plutonium Cloud Desktop — Open PDF Studio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #0a0a0a; color: #fff; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Plutonium Cloud shell header (monochrome, private-club atmosphere) */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 1rem 2rem; border-bottom: 1px solid rgba(255,255,255,.12);
+      background: rgba(14,14,14,.92);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; font-size: 15px; }
+    .brand svg { width: 20px; height: 20px; display: block; }
+    .toolbar {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .btn {
+      background: transparent; border: 1px solid rgba(255,255,255,.24); color: #fff;
+      border-radius: 100px; padding: 6px 14px; font: inherit; cursor: pointer; text-transform: uppercase; letter-spacing: .08em;
+    }
+    .btn:hover { background: #e5e5e5; color: #0a0a0a; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.primary { background: #fff; color: #0a0a0a; border-color: #fff; }
+    .btn.primary:hover { background: #e5e5e5; }
+
+    main { flex: 1 1 auto; position: relative; min-height: 0; overflow: hidden; }
+    iframe { width: 100%; height: 100%; display: block; border: 0; background: #0a0a0a; }
+
+    .status {
+      padding: .6rem 1rem; border-top: 1px solid rgba(255,255,255,.12);
+      background: rgba(14,14,14,.72); font-size: 11px; color: rgba(255,255,255,.62);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .status.ok { color: rgba(255,255,255,.85); }
+    .status.err { color: #ff6b6b; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.12); border-radius: 100px; padding: 2px 8px; background: rgba(255,255,255,.06); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <!-- Orbital logo motif: circular orbit crossed by tilted elliptical orbit -->
+      <svg viewBox="0 0 24 24" aria-label="Plutonium Cloud" focusable="false">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="1.5"/>
+        <ellipse cx="12" cy="12" rx="9" ry="5" fill="none" stroke="#fff" stroke-width="1.5" transform="rotate(30 12 12)"/>
+      </svg>
+      PLUTONIUM / CLOUD
+    </div>
+    <div class="toolbar">
+      <button id="btnOpen" class="btn primary">Open from Nextcloud</button>
+      <button id="btnSave" class="btn" disabled>Save to Nextcloud</button>
+      <button id="btnView" class="btn" disabled>View-only mode</button>
+      <button id="btnEdit" class="btn" disabled>Edit mode</button>
+      <span class="chip">desktop-only features: greyed out in iframe</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- The web unit is served by Caddy at the configured origin.
+         `host-origin` must match this page's origin so the iframe bridge accepts postMessage. -->
+    <iframe id="pdfUnit" src="" host-origin="https://plutoniumcloud.com" title="Open PDF Studio"></iframe>
+  </main>
+
+  <div class="status" id="status">
+    <span id="statusText">No document</span>
+  </div>
+
+  <script type="module">
+    /* ------------------------------------------------------------------ */
+    /*  Plutonium Cloud iframe host for Open PDF Studio web unit          */
+    /*  Drives the unit via postMessage (web-unit/src/iframe-brug.js).    */
+    /* ------------------------------------------------------------------ */
+
+    const PDF_UNIT_ORIGIN = 'https://plutoniumcloud.com';  // origin serving the Caddy bundle
+    const PORTAL_ORIGIN = 'https://plutoniumcloud.com';    // this page's origin (gastheer)
+
+    const iframe = document.getElementById('pdfUnit');
+    const statusEl = document.getElementById('status');
+    const statusText = document.getElementById('statusText');
+    const btnOpen  = document.getElementById('btnOpen');
+    const btnSave  = document.getElementById('btnSave');
+    const btnView  = document.getElementById('btnView');
+    const btnEdit  = document.getElementById('btnEdit');
+
+    let pending = new Map();   // id -> { resolve, reject }
+    let currentDoc = null;     // { name, url, bytes? }
+
+    /* ----- postMessage transport ----- */
+
+    function sendCommand(type, fields = {}) {
+      return new Promise((resolve, reject) => {
+        const id = 'opds-' + crypto.randomUUID();
+        pending.set(id, { resolve, reject });
+        const msg = { opds: 1, id, type, ...fields };
+        iframe.contentWindow.postMessage(msg, PDF_UNIT_ORIGIN);
+        // Safety timeout so a hung command never blocks the UI forever.
+        setTimeout(() => {
+          if (pending.has(id)) {
+            pending.delete(id);
+            reject(new Error('command timeout: ' + type));
+          }
+        }, 30000);
+      });
+    }
+
+    window.addEventListener('message', (e) => {
+      // Only accept messages from the web-unit origin.
+      if (e.origin !== PDF_UNIT_ORIGIN) return;
+      const m = e.data;
+      if (!m || m.opds !== 1) return;
+
+      const { id, type } = m;
+      const waiter = id && pending.get(id);
+
+      if (type.endsWith(':klaar') && waiter) {
+        pending.delete(id);
+        waiter.resolve(m);
+        return;
+      }
+      if (type.endsWith(':fout') && waiter) {
+        pending.delete(id);
+        waiter.reject(new Error(m.message || 'command failed: ' + m.code));
+        return;
+      }
+
+      /* Unsolicited events from the unit: geladen, gewijzigd, opgeslagen, fout */
+      if (type === 'geladen') {
+        currentDoc = { name: m.detail?.name, pages: m.detail?.paginas };
+        setStatus('ok', `Loaded: ${currentDoc.name} (${currentDoc.pages} pages)`);
+        btnSave.disabled = false;
+        return;
+      }
+      if (type === 'gewijzigd') {
+        setStatus('ok', `${m.detail?.count ?? 0} annotation(s)`);
+        return;
+      }
+      if (type === 'opgeslagen') {
+        setStatus('ok', `Saved: ${m.detail?.annotationCount ?? 0} annotation(s) baked in`);
+        return;
+      }
+      if (type === 'fout') {
+        setStatus('err', `Error: ${m.detail?.message ?? m.detail?.code ?? 'unknown'}`);
+        return;
+      }
+    });
+
+    /* ----- UI helpers ----- */
+
+    function setStatus(kind, text) {
+      statusText.textContent = text;
+      statusEl.className = 'status ' + kind;
+    }
+
+    function setBusy(b) {
+      [btnOpen, btnSave, btnView, btnEdit].forEach(b => { b.disabled = b === btnOpen ? false : b; });
+      btnOpen.disabled = b || btnOpen.disabled;  // keep Open enabled when not busy
+    }
+
+    /* ----- Nextcloud WebDAV wiring (placeholder — host-side) ----- */
+
+    async function fetchPdfFromNextcloud(path) {
+      /* Host resolves per-user Nextcloud credentials from the Authentik OIDC session.
+         Replace with actual WebDAV GET + auth header before production deploy. */
+      const url = `https://nextcloud.example.com/remote.php/dav/files/user${encodeURIComponent(path)}`;
+      const res = await fetch(url, { credentials: 'omit' }); // <-- wire OIDC token here
+      if (!res.ok) throw new Error(`Nextcloud GET ${res.status}`);
+      return res.arrayBuffer();
+    }
+
+    async function savePdfToNextcloud(path, bytes) {
+      /* Host PUTs annotated bytes back to Nextcloud WebDAV per user. */
+      const url = `https://nextcloud.example.com/remote.php/dav/files/user${encodeURIComponent(path)}`;
+      const res = await fetch(url, {
+        method: 'PUT',
+        body: new Uint8Array(bytes),
+        headers: { 'Content-Type': 'application/pdf' },
+        credentials: 'omit', // <-- wire OIDC token here
+      });
+      if (!res.ok) throw new Error(`Nextcloud PUT ${res.status}`);
+    }
+
+    /* ----- Commands ----- */
+
+    btnOpen.addEventListener('click', async () => {
+      // Demo: load a sample PDF. In production the host picks the user's file
+      // from Nextcloud and passes `bytes` (or a same-origin `src` URL).
+      setStatus('ok', 'Opening document…');
+      try {
+        // Option A: pass bytes (host fetched from Nextcloud WebDAV)
+        // const bytes = await fetchPdfFromNextcloud('/Documents/sample.pdf');
+        // await sendCommand('laad', { bytes: Array.from(new Uint8Array(bytes)) });
+
+        // Option B: same-origin URL (unit does one fetch with credentials:'same-origin')
+        await sendCommand('laad', { src: '/sample.pdf' });
+      } catch (err) {
+        setStatus('err', 'Open failed: ' + err.message);
+      }
+    });
+
+    btnSave.addEventListener('click', async () => {
+      if (!currentDoc) return;
+      setStatus('ok', 'Saving annotations…');
+      try {
+        const { bytes } = await sendCommand('opslaan');
+        // await savePdfToNextcloud(currentDoc.url, bytes);
+        setStatus('ok', `Saved ${bytes.byteLength} bytes to Nextcloud`);
+      } catch (err) {
+        setStatus('err', 'Save failed: ' + err.message);
+      }
+    });
+
+    btnView.addEventListener('click', async () => {
+      await sendCommand('zetModus', { modus: 'view' });
+      setStatus('ok', 'View-only mode');
+    });
+    btnEdit.addEventListener('click', async () => {
+      await sendCommand('zetModus', { modus: 'edit' });
+      setStatus('ok', 'Edit mode');
+    });
+
+    /* Desktop-only features are greyed out in the iframe (browser-version pattern).
+       Print, OCR, CAD, signatures, MCP, auto-updater are not exposed here. */
+    btnView.disabled = true;
+    btnEdit.disabled = true;
+  </script>
+</body>
+</html>

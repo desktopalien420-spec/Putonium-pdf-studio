@@ -60,15 +60,19 @@ Exit criteria: `docker build` succeeds, bundle served at 200, iframe loads the u
 
 Blocker note: Docker is not available in this sandbox; the image cannot be built or tested here. The next agent needs a Docker-enabled environment to complete Phase 2.
 
-### Phase 3 — Iframe embed on plutoniumcloud.com/desktop
+### Phase 3 — Iframe embed on plutoniumcloud.com/desktop ✅ REFERENCE PAGE AUTHORED
 
-Steps:
-1. Minimal host HTML page: `<iframe src="<caddy-url>/web-unit/…">` with `host-origin` attribute so `iframe-brug.js` auto-attaches (`web-unit/src/index.js:67`).
-2. Host implements `postMessage` → iframe commands (`laad`, `opslaan`, `zetSchaal`, `gaNaarPagina`, `zetModus`, `zetAnnotaties`) per `api.js`/`iframe-brug.js`.
-3. Host validates origins (`gastheerOrigins` in `api.js`).
-4. Grey-out desktop-only toolbar items (print/OCR/CAD/signatures) per browser-version pattern.
+Steps taken:
+1. Created `open-pdf-studio/web-unit/voorbeeld/host.html` — reference host page implementing the postMessage protocol (`laad`, `opslaan`, `zetSchaal`, `gaNaarPagina`, `zetModus`, `zetAnnotaties`), origin-gated to `https://plutoniumcloud.com`, Nextcloud WebDAV fetch/save placeholders, desktop-only features greyed out
+
+Remaining (host-side, outside this repo):
+2. Adapt `voorbeeld/host.html` into the plutoniumcloud.com/desktop host page.
+3. Wire `host-origin` to the actual portal origin serving the Caddy bundle.
+4. Replace Nextcloud WebDAV placeholders with real OIDC-authenticated GET/PUT (Phase 4).
 
 Exit criteria: iframe loads a PDF via host `laad`, renders, user annotates, host receives `opds:change`/`opds:save` events.
+
+Note: the live host page belongs in the plutoniumcloud.com/desktop repo (outside this repo); this repo holds a reference implementation only.
 
 ### Phase 4 — Nextcloud WebDAV wiring (host-side, outside the unit)
 
