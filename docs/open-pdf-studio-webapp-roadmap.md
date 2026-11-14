@@ -89,69 +89,70 @@ Steps:
 
 ## Branding and Design System — Plutonium Cloud
 
-**Planning only.** This section documents the established Plutonium Cloud design system, identifies remaining consistency work, and distinguishes existing implementation from proposed improvements. It is not authorization to redesign or deploy, and no styling changes are implied.
+**Planning only.** This section documents the established Plutonium Cloud design system found in branch `desktopalien420-spec-patch-1` under `plutoniumcloudbranding/Plutoniumcloud-main/plutonium-branding/`, identifies remaining consistency work, and distinguishes existing implementation from proposed improvements. It is not authorization to redesign or deploy, and no styling changes are implied.
+
+Schema files located in `desktopalien420-spec-patch-1` (outside the current checkout `kilo/spirited-beacon-fnr`; read from the remote ref only, not independently deployed):
+
+- `plutonium-branding/tokens.json` — shared visual source of truth (single commit hash in `manifest.json`)
+- `plutonium-branding/manifest.json` — file inventory with SHA-256 hashes
+- `plutonium-branding/deployment-manifest.json` — deployment payload hash + inventory helper hash
+- `plutonium-branding/build-tokens.py` — generates `tokens.css` and Authentik token declarations from `tokens.json`
+- `plutonium-branding/authentik.css` — flow-only theme v1 for Authentik 2026.8.5; token declarations wrapped in `/* tokens:start */` … `/* tokens:end */`
+- `plutonium-branding/README.md` — branding documentation, verified-locally notes, guarded installer guidance
+- `plutonium-branding/NATIVE-THEMES.md` — M3 native app appearance (Files/Photos); inventory-first guidance
+- `plutonium-branding/assets/wordmark.svg`, `assets/favicon.svg`, `assets/background.svg` — shared brand assets (hashes in manifest)
+- `plutonium-branding/native-apps/immich-plutonium-v2.css` — Photos palette/logo adapter
+- `plutonium-branding/native-apps/IMMICH-BRANDING-V2.md` — accepted scope and exclusions
+- `docs/superpowers/specs/2026-09-23-web-unit-design.md` — web-unit design spec (23 Sept 2026, Dutch)
 
 ### 1. Established visual identity
 
-**Design direction (attributed to the supplied design inventory, not independently verified):**
+**Design direction (from `tokens.json` and `authentik.css`, attributed to patch-1 schema):**
 
 - **Palette:** Monochrome — near-black (#0a0a0a), white (#ffffff), and neutral grays. No new decorative color accents without Adrian’s approval. Native warning, error, and success colors are preserved where they communicate meaning.
 - **Atmosphere:** Minimal, private-club/speakeasy — generous whitespace, precise alignment, fine borders, subtle grain, faint orbital/line-art decoration.
-- **Motion/depth:** Quiet motion, restrained depth, rounded surfaces. Motion generally 250–400ms using `cubic-bezier(.22,1,.36,1)` or `ease-out`; no bouncing. Preserve reduced-motion handling, visible keyboard focus, responsive layouts, and usable native controls.
+- **Motion/depth:** Quiet motion, restrained depth, rounded surfaces. Easing `cubic-bezier(.22,1,.36,1)` or `ease-out`; motion generally 250–400ms; no bouncing. Preserve reduced-motion handling, visible keyboard focus, responsive layouts, and usable native controls.
 - **Copy:** Welcoming and personal, not sales-oriented.
-- **Logo/favicon motif:** A circular orbit crossed by a tilted elliptical orbit, drawn with thin monochrome strokes. Main wordmark: PLUTONIUM / CLOUD. Native app variants include PLUTONIUM / PHOTOS and Files assets. Native Photos assets use #111111 strokes/text on light backgrounds and #ffffff on dark backgrounds (“light” filenames mean assets for light backgrounds).
-- **Typography:** Font stack `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`. Regular body weight 400; lighter display headings 300–400; wordmarks/labels generally 500; primary buttons 600; avoid 700+ below 1rem. Uppercase with tracking for wordmarks/labels/buttons/metadata; normal case for prose.
-- **Spacing/radii:** 4px base spacing (4, 8, 12, 16, 24, 32, 40, 48, 64px) with optical adjustments outside that scale. Shared radius token 24px; login cards 24px desktop / 20px mobile; app cards 16px; search 9px; appearance dialog 22px desktop / 16px mobile; small controls ~8–10px; pill buttons/badges 100px; circular avatars/icons 50%.
-
-**Referenced design inventory (attributed; outside this repository — not independently verified):**
-
-- `../DESIGN_SYSTEM.md` — original aesthetic guide; some values differ from implementation
-- `plutonium-branding/tokens.json` — shared branding tokens
-- `plutonium-branding/README.md` — token generation and adapter scope
-- `plutonium-portal/public/styles.css` — portal implementation
-- `plutonium-portal/public/index.html` — dark scheme and favicon reference
-- `plutonium-portal/public/mark.svg` — portal favicon asset
-- `plutonium-branding/assets/` — shared wordmark/favicon
-- `plutonium-branding/native-apps/logo-v2/` — Photos light/dark assets
-- `plutonium-branding/native-apps/immich-plutonium-v2.css` — Photos palette/logo adapter
-- `plutonium-branding/native-apps/IMMICH-BRANDING-V2.md` — accepted scope and exclusions
-- `plutonium-branding/nextcloud-header/assets/` — Files branding variants
+- **Logo/favicon motif:** A circular orbit crossed by a tilted elliptical orbit, drawn with thin monochrome strokes. Main wordmark: PLUTONIUM / CLOUD (textual wordmark with orbital motif in `assets/wordmark.svg`). Native app variants include PLUTONIUM / PHOTOS and Files assets.
+- **Typography:** Font stack `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif` (`--pc-font`). No external fonts or network CSS imports. Regular body weight 400; lighter display headings 300–400; wordmarks/labels generally 500; primary buttons 600; avoid 700+ below 1rem. Uppercase with tracking for wordmarks/labels/buttons/metadata; normal case for prose.
+- **Spacing/radii:** Shared radius token `--pc-radius: 24px`. 4px base spacing with optical adjustments outside that scale.
 
 ### 2. Compact token/reference table
 
-| Token category | Shared branding tokens (`plutonium-branding/tokens.json`) | Portal CSS (current implementation) | Status |
+| Token | `tokens.json` value | `authentik.css` usage | Status |
 |---|---|---|---|
-| Background | `#0a0a0a` | — | Existing (shared) |
-| Surface | `rgba(14,14,14,.92)` | `rgba(14,14,14,.72)` (card surface) | Differing |
-| Foreground | `#ffffff` | — | Existing (shared) |
-| Secondary text | `rgba(255,255,255,.85)` | — | Existing (shared) |
-| Muted text | `rgba(255,255,255,.62)` | white at `.58` | Differing |
-| Faint text | `rgba(255,255,255,.35)` | white at `.28` | Differing |
-| Border | `rgba(255,255,255,.12)` | white at `.08` (subtle border) | Differing |
-| Input border | `rgba(255,255,255,.24)` | white at `.18` | Differing |
-| Focus | `rgba(255,255,255,.8)` | — | Existing (shared) |
-| Primary button | `#ffffff` with `#0a0a0a` text | — | Existing (shared) |
-| Primary hover | `#e5e5e5` | — | Existing (shared) |
-| Light theme | Not established | Dark scheme declared on portal login | Partial |
-| Photos light primary | #323232 | — | Existing (Photos native) |
-| Photos dark primary | #e5e5e5 | — | Existing (Photos native) |
+| `--pc-background` | `#0a0a0a` | `ak-flow-executor` background; portal login page | Existing (shared) |
+| `--pc-surface` | `rgba(14,14,14,.92)` | `--ak-c-login__main--BackgroundColor`, `.pf-c-login__main` | Existing (shared) |
+| `--pc-foreground` | `#ffffff` | text color | Existing (shared) |
+| `--pc-secondary` | `rgba(255,255,255,.85)` | — | Existing (shared) |
+| `--pc-muted` | `rgba(255,255,255,.62)` | `--pf-global--Color--200`, form labels `#ffffffb3` | Existing (shared) |
+| `--pc-faint` | `rgba(255,255,255,.35)` | placeholder `#ffffff73` | Existing (shared) |
+| `--pc-border` | `rgba(255,255,255,.12)` | `.pf-c-login__main` border `1px solid #ffffff1f` | Existing (shared) |
+| `--pc-input-border` | `rgba(255,255,255,.24)` | `.pf-c-form-control` bottom border `#ffffff3d` | Existing (shared) |
+| `--pc-focus` | `rgba(255,255,255,.8)` | `:focus-visible` outline `#ffffffcc` | Existing (shared) |
+| `--pc-button` | `#ffffff` | primary button background | Existing (shared) |
+| `--pc-button-text` | `#0a0a0a` | primary button text | Existing (shared) |
+| `--pc-hover` | `#e5e5e5` | primary button hover | Existing (shared) |
+| `--pc-radius` | `24px` | `.pf-c-login__main` border-radius; 20px mobile | Existing (shared) |
+| `--pc-font` | `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif` | `--ak-font-family-sans-serif`, etc. | Existing (shared) |
+| `--pc-ease` | `cubic-bezier(.22,1,.36,1)` | — | Existing (shared) |
 
-**Theme state:** The inspected portal login declares a dark color scheme. A complete portal light-theme token set has not been established. Native Photos supports both themes while preserving native layout and user appearance preference; Photos primary scales (50–950) exist for light and dark but are not a complete global light/dark surface specification. If proposing a portal light theme, label its palette and implementation as future work requiring a decision.
+**Theme state:** The inspected portal login declares a dark color scheme (`color-scheme: dark`). A complete portal light-theme token set has not been established. Native Photos supports both themes while preserving native layout and user appearance preference (`NATIVE-THEMES.md`); Photos primary scales exist for light and dark but are not a complete global light/dark surface specification. If proposing a portal light theme, label its palette and implementation as future work requiring a decision.
 
-**Logo/favicon state:** The accepted orbital logo motif exists (circular orbit crossed by tilted elliptical orbit). The portal `mark.svg` and shared `favicon.svg` currently show a white outlined access/briefcase-like symbol on a #0a0a0a rounded square — they differ from the orbital logo. The accepted 3D dithered atom is a desktop decorative element; do not assume it replaces the logo or favicon. Treat favicon/logo unification as a possible roadmap decision, not an already completed change. Reuse existing assets before proposing replacements.
+**Logo/favicon state:** `assets/favicon.svg` and `assets/wordmark.svg` exist in the schema (hashes recorded in `manifest.json`). The portal `mark.svg`/`favicon.svg` referenced in earlier planning show a white outlined access/briefcase-like symbol on a #0a0a0a rounded square — they differ from the orbital logo motif. Treat favicon/logo unification as a possible roadmap decision, not an already completed change. Reuse existing assets before proposing replacements.
 
 ### 3. Current application coverage and explicit differences
 
 **Established / accepted (no change implied):**
-- Shared branding tokens exist in `plutonium-branding/tokens.json` for background, surface, foreground, secondary/muted/faint text, border, input border, focus, primary button, primary hover.
-- Native Photos supports both light and dark themes with established primary scales and palette/logo adapters.
+- Shared branding tokens exist in `tokens.json` for all 15 token categories above.
+- `authentik.css` applies tokens to Authentik flow components only (login card, labels, inputs, primary button, links, focus, alerts); native forms, errors, MFA, password visibility, language, and recovery controls stay intact.
 - Native Photos branding is preserved (favicon, browser title, metadata, accessibility labels, mobile-app branding unchanged per the accepted web-logo adapter).
 - Native warning/error/success colors are preserved where they communicate meaning.
 
 **Explicit differences (documented, not silently reconciled):**
-- Portal card surface (`rgba(14,14,14,.72)`) differs from shared token (`rgba(14,14,14,.92)`).
-- Portal muted/faint/border/input-border opacities differ from shared token values.
-- Portal `mark.svg`/`favicon.svg` differ from the orbital logo motif.
+- Portal card surface (`rgba(14,14,14,.72)` observed in portal CSS) differs from shared token `--pc-surface` (`rgba(14,14,14,.92)`).
+- Portal muted/faint/border/input-border opacities may differ from shared token values; review required before unifying.
+- Portal `mark.svg`/`favicon.svg` differ from the orbital logo motif in `assets/`.
 - No complete portal light-theme token set exists.
 - Token values are partly hardcoded today; a unified named token system is proposed work, not an existing completed system.
 - Portal appearance settings affect portal chrome only; they do not automatically restyle embedded applications across origins.
@@ -171,7 +172,7 @@ These touchpoints currently reflect Open PDF Studio branding, not Plutonium Clou
 
 | Priority | Item | Type | Completion criteria |
 |---|---|---|---|
-| 1 | Document token ownership (shared vs portal vs native-apps) | Documentation | Owner per token set identified; `plutonium-branding/README.md` adapter scope noted |
+| 1 | Confirm token ownership (shared `tokens.json` vs portal vs native-apps) | Documentation | Owner per token set identified; `plutonium-branding/README.md` adapter scope noted |
 | 2 | Review existing token differences (surface, muted/faint/border/input-border opacities) | Review | Differences cataloged; no silent replacement of one token set with another |
 | 3 | Decide favicon/logo consistency (orbital logo vs portal `mark.svg`/`favicon.svg`) | Decision | Decision recorded; existing assets reused before proposing replacements |
 | 4 | Define portal light-theme token set (if Adrian wants one) | Proposed, future work | Palette labeled as future work; requires Adrian decision; not a complete global surface spec |
@@ -188,7 +189,7 @@ These touchpoints currently reflect Open PDF Studio branding, not Plutonium Clou
 
 ### 5. Decision needed before rebranding work begins
 
-Obtain the Plutonium Cloud design schema (design tokens, assets) before touching any styling. Then a dedicated rebranding phase follows Phase 3 (iframe embed) so the host page and unit share one visual language. Do not mark repository assets as deployed merely because they exist. Preserve user-accepted branding without reopening it for unnecessary verification.
+Obtain the Plutonium Cloud design schema (design tokens, assets) before touching any styling. The schema exists in `desktopalien420-spec-patch-1` under `plutoniumcloudbranding/Plutoniumcloud-main/plutonium-branding/` but is not part of the current checkout. Then a dedicated rebranding phase follows Phase 3 (iframe embed) so the host page and unit share one visual language. Do not mark repository assets as deployed merely because they exist. Preserve user-accepted branding without reopening it for unnecessary verification.
 
 ## Open decisions (need answers before Phase 2–4)
 
